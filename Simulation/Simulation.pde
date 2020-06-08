@@ -4,6 +4,9 @@ double yPos = 0;
 double speedX = 0;
 double speedY = 0;
 
+frameRate(Constants.frameRate);
+
+
 
 void setup(){
     size(600,600);
