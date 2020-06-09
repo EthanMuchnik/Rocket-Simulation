@@ -1,11 +1,8 @@
 import java.lang.Math.*;
 
-abstract class Rocket{
+class Rocket{
 
     double perThrust; //Percent Thrust form 0 to 1
-
-    double heightImage;
-    double widthImage;
 
     double massE; //Empty Mass
     double massF; //mass full rocket
@@ -17,6 +14,11 @@ abstract class Rocket{
 
     double hPos;
     double wPos;
+    double hImg;
+    double wImg;
+    PImage rImage;
+
+
     double angleGround;
 
     double hVelI;
@@ -49,7 +51,7 @@ abstract class Rocket{
             private double pres = calcPressure();
             // Mass
 
-    public Rocket(double hPos,double wPos, double massE, double massF, double angleGround, double aEng){
+    public Rocket(double hPos,double wPos, double massE, double massF, double angleGround, double aEng, double aRocket){
         this.hPos = hPos;
         this.wPos = wPos;
         this.hVelI = 0;
@@ -63,9 +65,14 @@ abstract class Rocket{
         this.viscosity = viscosityUpdate();
         this.aEng = aEng;
         this.aRocket = aRocket;
+        this.rImage = loadImage("images/rocket/smallRocket.png");
+        this.wImg = 50.0;
+        this.hImg = 300.0;
     }
 
-    //
+    public void imagePrint(){
+        image(rImage,(int)wPos,(int)hPos,(int)wImg,(int)hImg);
+    }
 
     // F = thrustForce-drag-mg = ma 
     // t is constant is it increases in increments of 0.2

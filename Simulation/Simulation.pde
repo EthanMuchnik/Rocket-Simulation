@@ -4,9 +4,14 @@ double yPos = 0;
 double speedX = 0;
 double speedY = 0;
 
+Rocket myRocket;
+
+// PImage rocket;
 void setup(){
     size(1200,900);
     frameRate(Constants.frameRate);
+    // rocket = loadImage("images/rocket/smallRocket.png");
+    myRocket = new Rocket(Constants.width/2,Constants.height, 1000, 2000,90,50,50);
 }
 void draw(){
     yPos+=speedY;
@@ -16,8 +21,8 @@ void draw(){
 
     speedX+=0.2;
     speedY+=0.2;
-
-
+    myRocket.imagePrint();
+    myRocket.generalUpdate();
 }
 
 // void keyPressed() {
