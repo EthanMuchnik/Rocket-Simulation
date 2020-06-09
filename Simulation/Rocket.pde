@@ -38,6 +38,8 @@ class Rocket{
     double airDragFX = airDragForceX();
     double airDragFY= airDragForceY();
 
+    double normalFY = normalForceY();
+
     double netForceX;
     double netForceY;
 
@@ -109,7 +111,8 @@ class Rocket{
         return massC*Constants.gravAcc;
     }
     public double airDragForceX(){
-        return 0.5*coefDrag*wVelF*wVelF*aRocket*viscosityUpdate()*Math.signum(wVelF)*(-1);
+        return 0.5*coefDrag*wVelF*wVelF*aRocket*Math.signum(wVelF)*(-1);
+        // *viscosityUpdate()
     }
     public double airDragForceY(){
         // System.out.println("coefDrag"+ coefDrag);
@@ -118,7 +121,8 @@ class Rocket{
         // System.out.println("viscosity"+ viscosityUpdate());
         // System.out.println("mathsign" + Math.signum(hVelF)*(-1));
 
-        return 0.5*coefDrag*hVelF*hVelF*aRocket*viscosityUpdate()*Math.signum(hVelF)*(-1);
+        return 0.5*coefDrag*hVelF*hVelF*aRocket*Math.signum(hVelF)*(-1);
+        // *viscosityUpdate()
         
 
     }
@@ -150,31 +154,48 @@ class Rocket{
     }
 
     public void generalUpdate(){
-        System.out.println("hPos:" + hPos);
+        // theKey = "";
+        // hVelF = speedUpdateY();
+        // hPos = setHPos();
+        
         massC = massUpdate();
         pres  = updatePressure();
-        System.out.println("pres" + pres);
+        // System.out.println("pres" + pres);
         netForceX = forceUpdateX();
-        System.out.println("net x: " +netForceX);
+        // System.out.println("net x: " +netForceX);
         netForceY = forceUpdateY();
+        netForceY = netForceY - normalForceY();
         System.out.println("net y"+ netForceY);
         viscosity = viscosityUpdate();
-        hVelF = speedUpdateY();
-        wVelF = speedUpdateX();
-        hPos = setHPos();
         wPos = setWPos();
+        wVelF = speedUpdateX();
+        hUpdate();
+        System.out.println("hPos:" + hPos);
+        System.out.println();
+
+
+
         itoFSpeedY();
         itoFSpeedX();
-        System.out.println();
         theKey = "";
+    }
+    public double normalForceY(){
+        if(hPos>900 ){
+            normalFY = netForceY*(-1);
+            return normalFY;
+        }
+        else{
+            normalFY = 0.0;
+            return normalFY;
+        }
     }
     public double speedUpdateX(){
         return (netForceX*Constants.dt)/massC+wVelI;
         // System.out.println("Width I")
     }
-    public double speedUpdateY(){
-        return (netForceY*Constants.dt)/massC+ hVelI;
-    }
+    // public double speedUpdateY(){
+    //     return (netForceY*Constants.dt)/massC+ hVelI;
+    // }
 
     public void itoFSpeedY(){
         hVelI = hVelF;
@@ -197,12 +218,24 @@ class Rocket{
     public double getWPos(){
         return wPos;
     }    
-    public double setHPos(){
-        if(hPos>0){
-            return hPos+=hVelF;
+    public void hUpdate(){
+        System.out.println("the key: "+  theKey);
+        if(hPos<600){
+            hVelF =(netForceY*Constants.dt)/massC+ hVelI;
+            hPos+=hVelF;
+
         }
-        else{
-            return 0.0;
+        else if(hPos==600 && theKey.equals("a") ){
+            hVelF =(netForceY*Constants.dt)/massC+ hVelI;
+            hPos+=hVelF;
+        }
+        else if(hPos==600 && !theKey.equals("a") ){
+            hVelF = 0;
+            hPos =  600;
+        }
+        else if(hPos>600){
+            hVelF = 0;
+            hPos =  600;
         }
     }    
     public double setWPos(){
