@@ -82,7 +82,7 @@ class Rocket{
 
 
     public double updatePressure(){
-        return Constants.pZero*Math.pow( Constants.e, (((Constants.molarMass)*(Constants.gravAcc))/((Constants.rGasConst)*(Constants.rGasConst)))*(hPos) );
+        return Constants.pZero*Math.pow( Constants.e, -1*(((Constants.molarMass)*(Constants.gravAcc))/((Constants.rGasConst)*(Constants.rGasConst)))*(hPos) );
     }
 
     public double thrustForceX(){
@@ -93,7 +93,7 @@ class Rocket{
 
     public double thrustForceY(){
         System.out.println("sin" + Math.sin(Math.toRadians(angleGround)));
-        return  100*(mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(Math.toRadians(angleGround))*(-1);  
+        return  1*(mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(Math.toRadians(angleGround))*(-1);  
     }
 
     public double gravityForce(){
@@ -103,7 +103,7 @@ class Rocket{
         return 0.5*coefDrag*wVelF*wVelF*aRocket*viscosityUpdate()*Math.signum(wVelF)*(-1);
     }
     public double airDragForceY(){
-        return 0.000001*coefDrag*hVelF*hVelF*aRocket*viscosityUpdate()*Math.signum(hVelF)*(-1);
+        return 0.5*coefDrag*hVelF*hVelF*aRocket*viscosityUpdate()*Math.signum(hVelF)*(-1);
     }
 
 
@@ -133,6 +133,7 @@ class Rocket{
     }
 
     public void generalUpdate(){
+        System.out.println("hPos:" + hPos);
         massC = massUpdate();
         pres  = updatePressure();
         System.out.println("pres" + pres);
