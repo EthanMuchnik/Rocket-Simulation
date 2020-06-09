@@ -11,7 +11,7 @@ class Constants{
     public final static double pZero = 5.0;//random val for gas const in N*m/(mol*K)
 
     //General Program Consts
-    public final static float frameRate = 30.0;//frameRate
+    public final static float frameRate = 2.0;//frameRate
     public final static double dt = 1/frameRate;//time between each frame in seconds
     public final static double width = 1200;//time between each frame in seconds
     public final static double height = 900;//time between each frame in seconds
