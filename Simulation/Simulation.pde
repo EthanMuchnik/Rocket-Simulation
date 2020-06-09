@@ -11,7 +11,7 @@ void setup(){
     size(1200,900);
     frameRate(Constants.frameRate);
     // rocket = loadImage("images/rocket/smallRocket.png");
-    myRocket = new Rocket(Constants.width/2,Constants.height, 5, 5,0.7);
+    myRocket = new Rocket(Constants.rHeight,Constants.rWidth/2, 500, 5,0.7);
 }
 void draw(){
     yPos+=speedY;

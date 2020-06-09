@@ -61,7 +61,7 @@ class Rocket{
         this.massC = massF;
         this.angleGround = 90;
         this.viscosity = viscosityUpdate();
-        this.aEng = 5;
+        this.aEng = 50;
         this.aRocket = 5;
         this.rImage = loadImage("images/rocket/smallRocket.png");
         this.wImg = 50.0;
@@ -69,11 +69,13 @@ class Rocket{
         this.mFR = mFR;
         this.eVel = eVel;
         this.coefDrag = coefDrag;
-        this.ePres = 20;
+        this.ePres = 5;
+        this.perThrust = 0.2;
     }
 
     public void imagePrint(){
         image(rImage,(int)wPos,(int)hPos,(int)wImg,(int)hImg);
+        // System.out.println("hPos initial"+hPos);
     }
 
     // F = thrustForce-drag-mg = ma 
@@ -82,7 +84,9 @@ class Rocket{
 
 
     public double updatePressure(){
-        return Constants.pZero*Math.pow( Constants.e, -1*(((Constants.molarMass)*(Constants.gravAcc))/((Constants.rGasConst)*(Constants.rGasConst)))*(hPos) );
+        // System.out.println("before Pressure"+ -1*((((Constants.molarMass)*(Constants.gravAcc))/((Constants.tempConst)*(Constants.rGasConst)))*(hPos-900)));
+        // System.out.println("before Pressure 2.0"+ (hPos-900));
+        return Constants.pZero*Math.pow( Constants.e, ((((Constants.molarMass)*(Constants.gravAcc))/((Constants.tempConst)*(Constants.rGasConst)))*(hPos-900)) );
     }
 
     public double thrustForceX(){
@@ -93,7 +97,7 @@ class Rocket{
 
     public double thrustForceY(){
         System.out.println("sin" + Math.sin(Math.toRadians(angleGround)));
-        return  1*(mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(Math.toRadians(angleGround))*(-1);  
+        return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(Math.toRadians(angleGround))*(-1);  
     }
 
     public double gravityForce(){
@@ -103,7 +107,15 @@ class Rocket{
         return 0.5*coefDrag*wVelF*wVelF*aRocket*viscosityUpdate()*Math.signum(wVelF)*(-1);
     }
     public double airDragForceY(){
+        // System.out.println("coefDrag"+ coefDrag);
+        // System.out.println("speed"+ hVelF);
+        // System.out.println("arocket"+ aRocket);
+        // System.out.println("viscosity"+ viscosityUpdate());
+        // System.out.println("mathsign" + Math.signum(hVelF)*(-1));
+
         return 0.5*coefDrag*hVelF*hVelF*aRocket*viscosityUpdate()*Math.signum(hVelF)*(-1);
+        
+
     }
 
 
@@ -169,7 +181,7 @@ class Rocket{
 
 
     public double viscosityUpdate(){
-        return Math.pow((Constants.e),-0.0005*hPos+0.25);
+        return Math.pow((Constants.e),0.0005*(hPos-900)+0.25);
     }
 
     //get variables functions
