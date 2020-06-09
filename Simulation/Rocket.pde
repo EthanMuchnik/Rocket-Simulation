@@ -19,46 +19,51 @@ abstract class Rocket{
     double wPos;
     double angleGround;
 
-    double hVel;
-    double vVel;
-    double combVel = Math.sqrt(hVel*hVel+vVel*vVel);
+    double hVelI;
+    double hVelF;
+    double wVelI;
+    double wVelF;
+
+    double combVel = Math.sqrt(hVelF*hVelF+wVelF*wVelF);
 
     double coefDrag; //Coefficient of drag is typically around 0.75
     double viscosity;
+    double a;//area of engine
 
-    private double thrustFX;
-    private double thrustFY;
-    private double gravF;
-    private double airDragF;
-    private double netForceX;
-    private double netForceY;
+    double thrustFX= thrustForceX();
+    double thrustFY= thrustForceY();
+    double gravF= gravityForce();
+    double airDragFX = airDragForceX();
+    double airDragFY= airDragForceY();
 
-    
-    
+    double netForceX;
+    double netForceY;
 
-    private double a = 5.0;//area of engine
-
-    public Rocket(double hPos, double massE, double massF, double angleGround){
-        this.hPos = hPos;
-        this.massE = massE;
-        this.massF = massF;
-        this.angleGround = angleGround;
-    }
-
+    double aEng;//area of engine
+    double aRocket;//area of Rocket
 
     //Equation Var
         //F = m dot * Ve + (pe - p0) * Ae
-
-            thrustFX = thrustForceX();//thrust of Engine X
-            thrustFY = thrustForceY();//thrust of Engine Y
-            gravF= gravityForce();//force of gravity
-            airDragF = airDragForce();//force of air resistance
-
 
             //Pressure //dP/P = -(Mg/RT)(dh)--> P = P0e^((-Mg/RT)(h)) https://www.math24.net/barometric-formula/#:~:text=P(h)%3D101.325%E2%8B%85,0.00012h)%5BmmHg%5D.
             private double pres = calcPressure();
             // Mass
 
+    public Rocket(double hPos,double wPos, double massE, double massF, double angleGround, double aEng){
+        this.hPos = hPos;
+        this.wPos = wPos;
+        this.hVelI = 0;
+        this.wVelI = 0;
+        // this.hVelF = 0;
+        // this.wVelF = 0;
+        this.massE = massE;
+        this.massF = massF;
+        this.massC = massF;
+        this.angleGround = angleGround;
+        this.viscosity = viscosityUpdate();
+        this.aEng = aEng;
+        this.aRocket = aRocket;
+    }
 
     //
 
@@ -68,70 +73,80 @@ abstract class Rocket{
 
 
     public double calcPressure(){
-        return Constants.pZero*Math.pow( Constants.e, (((Constants.molarMass)*(Constants.gravAcc))/((Constants.rGasConst)*(Constants.rGasConst)))*(getHPos) );
+        return Constants.pZero*Math.pow( Constants.e, (((Constants.molarMass)*(Constants.gravAcc))/((Constants.rGasConst)*(Constants.rGasConst)))*(hPos) );
     }
 
     public double thrustForceX(){
-        return  mFR*eVel+(ePres-pres)*a*perThrust* Math.cos(angleGround); 
+        return  mFR*eVel+(ePres-pres)*aEng*perThrust* Math.cos(angleGround); 
     }
 
     public double thrustForceY(){
-        return  mFR*eVel+(ePres-pres)*a*perThrust*Math.sin(angleGround);  
+        return  mFR*eVel+(ePres-pres)*aEng*perThrust*Math.sin(angleGround);  
     }
 
     public double gravityForce(){
         return massC*Constants.gravAcc*(-1);
     }
     public double airDragForceX(){
-        return 0.5*coefDrag*wVel*wVel*viscosityUpdate()*signum(wVel)*(-1);
+        return 0.5*coefDrag*wVelF*wVelF*aRocket*viscosityUpdate()*Math.signum(wVelF)*(-1);
     }
     public double airDragForceY(){
-        return 0.5*coefDrag*hVel*hVel*viscosityUpdate()*signum(wVel)*(-1);
+        return 0.5*coefDrag*hVelF*hVelF*aRocket*viscosityUpdate()*Math.signum(hVelF)*(-1);
     }
 
 
-    public double forceUpdateX();
-    {
+    public double forceUpdateX(){
         thrustFX = thrustForceX();//thrust of Engine X
         airDragFX = airDragForceX();//force of air resistance
-        netForceX = thrustFX + airdDragFX;
-        return thrustFX + airdDragFX;
+        return thrustFX + airDragFX;
     }
-    public double forceUpdateY();
-    {
+
+    public double forceUpdateY(){
         thrustFY = thrustForceY();//thrust of Engine Y
         gravF= gravityForce();//force of gravity
         airDragFY = airDragForceY();//force of air resistance
-        netForceY = thrustFY + airdDragFY+gravF;
-        return thrustFY + airdDragFY+gravF;
+        return thrustFY + airDragFY+gravF;
     }
 
     public double massUpdate(){
         if(massC-mFR*perThrust>=massE){
-            massC-=(mFR*perThrust);
+            return massC-=(mFR*perThrust);
         }
         return massC;
     }
 
-    public double generalUpdate(){
-        massUpdate();
-        forceUpdateX();
-        forceUpdateY();
+    public void generalUpdate(){
+        massC = massUpdate();
+        netForceX = forceUpdateX();
+        netForceX = forceUpdateY();
+        viscosity = viscosityUpdate();
+        hVelF = speedUpdateY();
+        wVelF = speedUpdateX();
+        hPos = setHPos();
+        wPos = setWPos();
     }
-
-    public double speedUpdate(){
-        netForceX = 
+    public double speedUpdateX(){
+        return (netForceY*Constants.dt)/massC+wVelI;
+    }
+    public double speedUpdateY(){
+        return (netForceX*Constants.dt)/massC+ hVelI;
     }
 
     public double viscosityUpdate(){
-        viscosity = Math.pow((Constants.e),-0.0005*getHPos+0.25);
-        return Math.pow((Constants.e),-0.0005*getHPos+0.25);
+        return Math.pow((Constants.e),-0.0005*hPos+0.25);
     }
 
     //get variables functions
     public double getHPos(){
         return hPos;
+    }    
+    public double getWPos(){
+        return wPos;
+    }    
+    public double setHPos(){
+        return hPos+=hVelF;
+    }    
+    public double setWPos(){
+        return wPos+=wVelF;
     }        
-
-    
 }
