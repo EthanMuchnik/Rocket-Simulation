@@ -45,6 +45,8 @@ class Rocket{
     double aRocket;//area of Rocket
     double pres; //pressure at altitude
 
+    public String theKey = ""; 
+
     //Equation Var
         //F = m dot * Ve + (pe - p0) * Ae
 
@@ -97,7 +99,10 @@ class Rocket{
 
     public double thrustForceY(){
         System.out.println("sin" + Math.sin(Math.toRadians(angleGround)));
-        return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(Math.toRadians(angleGround))*(-1);  
+        if(theKey == "a"){
+            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(Math.toRadians(angleGround))*(-1);
+        }
+        return  0.0;  
     }
 
     public double gravityForce(){
@@ -161,6 +166,7 @@ class Rocket{
         itoFSpeedY();
         itoFSpeedX();
         System.out.println();
+        theKey = "";
     }
     public double speedUpdateX(){
         return (netForceX*Constants.dt)/massC+wVelI;
@@ -192,9 +198,20 @@ class Rocket{
         return wPos;
     }    
     public double setHPos(){
-        return hPos+=hVelF;
+        if(hPos>0){
+            return hPos+=hVelF;
+        }
+        else{
+            return 0.0;
+        }
     }    
     public double setWPos(){
         return wPos+=wVelF;
-    }        
+    }     
+
+    public void getK(String aKey){
+        if(aKey.equals("a")){
+            theKey= "a";
+        }
+    }   
 }

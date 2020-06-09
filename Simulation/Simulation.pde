@@ -11,7 +11,7 @@ void setup(){
     size(1200,900);
     frameRate(Constants.frameRate);
     // rocket = loadImage("images/rocket/smallRocket.png");
-    myRocket = new Rocket(Constants.rHeight,Constants.rWidth/2, 500, 5,0.7);
+    myRocket = new Rocket(Constants.rHeight/2,Constants.rWidth/2, 500, 5,0.7);
 }
 void draw(){
     yPos+=speedY;
@@ -25,18 +25,6 @@ void draw(){
     myRocket.generalUpdate();
 }
 
-// void keyPressed() {
-//     if(key == 'a'){
-//         x-=5;
-//     }
-//     else if(key == 'w'){
-//         y-=5;
-//     }
-//     else if(key == 'd'){
-//         x+=5;
-//     }
-//     else if(key == 's'){
-//         y+=5;
-//     }
-
-// }
+void keyPressed() {
+    myRocket.getK(Character.toString(key));
+}
