@@ -46,8 +46,8 @@ class Rocket{
     double aEng;//area of engine
     double aRocket;//area of Rocket
     double pres; //pressure at altitude
-
-    public String theKey = ""; 
+    int counter = 0;
+    boolean thrustOn = false;
 
     //Equation Var
         //F = m dot * Ve + (pe - p0) * Ae
@@ -63,7 +63,7 @@ class Rocket{
         this.massE = 60.0;
         this.massF = 80.0;
         this.massC = massF;
-        this.angleGround = 90;
+        this.angleGround = PI/2;
         this.viscosity = viscosityUpdate();
         this.aEng = 50;
         this.aRocket = 5;
@@ -78,6 +78,9 @@ class Rocket{
     }
 
     public void imagePrint(){
+        translate((float)(wPos + wImg/2), (float)(hPos+hImg/2));
+        rotate(counter*(PI/60.0));
+        translate((float)-(wPos + wImg/2), (float)-(hPos+hImg/2));
         image(rImage,(int)wPos,(int)hPos,(int)wImg,(int)hImg);
         // System.out.println("hPos initial"+hPos);
     }
@@ -95,14 +98,14 @@ class Rocket{
 
     public double thrustForceX(){
         System.out.println("cos" + Math.cos(Math.toRadians(angleGround)));
-        return  (mFR*eVel+(ePres-pres)*aEng*perThrust)* Math.cos(Math.toRadians(angleGround)); 
+        return  (mFR*eVel+(ePres-pres)*aEng*perThrust)* Math.cos(angleGround+counter*PI/60)*(-1); 
 
     }
 
     public double thrustForceY(){
-        System.out.println("sin" + Math.sin(Math.toRadians(angleGround)));
-        if(theKey == "a"){
-            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(Math.toRadians(angleGround))*(-1);
+        System.out.println("sin" + Math.sin(angleGround+counter*PI/60));
+        if(thrustOn == true){
+            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(angleGround+counter*PI/60)*(-1);
         }
         return  0.0;  
     }
@@ -123,8 +126,6 @@ class Rocket{
 
         return 0.5*coefDrag*hVelF*hVelF*aRocket*Math.signum(hVelF)*(-1);
         // *viscosityUpdate()
-        
-
     }
 
 
@@ -167,9 +168,10 @@ class Rocket{
         netForceY = netForceY - normalForceY();
         System.out.println("net y"+ netForceY);
         viscosity = viscosityUpdate();
-        wPos = setWPos();
-        wVelF = speedUpdateX();
+        // wPos = setWPos();
+        // wVelF = speedUpdateX();
         hUpdate();
+        wUpdate();
         System.out.println("hPos:" + hPos);
         System.out.println();
 
@@ -177,7 +179,7 @@ class Rocket{
 
         itoFSpeedY();
         itoFSpeedX();
-        theKey = "";
+        thrustOn = false ;
     }
     public double normalForceY(){
         if(hPos>900 ){
@@ -218,18 +220,36 @@ class Rocket{
     public double getWPos(){
         return wPos;
     }    
+
+    public void wUpdate(){
+        if(hPos<600){
+            wVelF =(netForceX*Constants.dt)/massC+ wVelI;
+            wPos+=wVelF;
+
+        }
+        else if(hPos==600 && thrustOn ){
+            wVelF =(netForceX*Constants.dt)/massC+ wVelI;
+            wPos+=wVelF;
+        }
+        else if(hPos==600 && !thrustOn ){
+            wVelF = 0;
+        }
+        else if(hPos>600){
+            wVelF = 0;
+        }
+    }
     public void hUpdate(){
-        System.out.println("the key: "+  theKey);
+        System.out.println("thrustOn: "+  thrustOn);
         if(hPos<600){
             hVelF =(netForceY*Constants.dt)/massC+ hVelI;
             hPos+=hVelF;
 
         }
-        else if(hPos==600 && theKey.equals("a") ){
+        else if(hPos==600 && thrustOn ){
             hVelF =(netForceY*Constants.dt)/massC+ hVelI;
             hPos+=hVelF;
         }
-        else if(hPos==600 && !theKey.equals("a") ){
+        else if(hPos==600 && !thrustOn ){
             hVelF = 0;
             hPos =  600;
         }
@@ -242,9 +262,14 @@ class Rocket{
         return wPos+=wVelF;
     }     
 
-    public void getK(String aKey){
-        if(aKey.equals("a")){
-            theKey= "a";
-        }
+    public void thrust(){
+            thrustOn = true;
     }   
+    public void leftTurn(){
+        counter++;
+        // angleGround+=Math.to
+    }
+    public void rightTurn(){
+        counter--;
+    }
 }

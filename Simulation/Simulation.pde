@@ -26,5 +26,15 @@ void draw(){
 }
 
 void keyPressed() {
-    myRocket.getK(Character.toString(key));
+
+    String aKey = (Character.toString(key));
+    if(aKey.equals("a")){
+            myRocket.thrust();
+        }
+    else if(aKey.equals("k")){
+        myRocket.leftTurn();
+    }
+    else if(aKey.equals("j")){
+        myRocket.rightTurn();
+    }
 }
