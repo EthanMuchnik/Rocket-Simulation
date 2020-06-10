@@ -98,8 +98,10 @@ class Rocket{
 
     public double thrustForceX(){
         System.out.println("cos" + Math.cos(Math.toRadians(angleGround)));
-        return  (mFR*eVel+(ePres-pres)*aEng*perThrust)* Math.cos(angleGround+counter*PI/60)*(-1); 
-
+        if(thrustOn == true){
+            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)* Math.cos(angleGround+counter*PI/60)*(-1); 
+        }   
+        return  0.0; 
     }
 
     public double thrustForceY(){
@@ -114,8 +116,8 @@ class Rocket{
         return massC*Constants.gravAcc;
     }
     public double airDragForceX(){
-        return 0.5*coefDrag*wVelF*wVelF*aRocket*Math.signum(wVelF)*(-1);
-        // *viscosityUpdate()
+        return 0.5*coefDrag*wVelF*wVelF*viscosityUpdate()*aRocket*Math.signum(wVelF)*(-1);
+        
     }
     public double airDragForceY(){
         // System.out.println("coefDrag"+ coefDrag);
@@ -124,7 +126,7 @@ class Rocket{
         // System.out.println("viscosity"+ viscosityUpdate());
         // System.out.println("mathsign" + Math.signum(hVelF)*(-1));
 
-        return 0.5*coefDrag*hVelF*hVelF*aRocket*Math.signum(hVelF)*(-1);
+        return 0.5*coefDrag*hVelF*hVelF*viscosityUpdate()*aRocket*Math.signum(hVelF)*(-1);
         // *viscosityUpdate()
     }
 
@@ -174,11 +176,9 @@ class Rocket{
         wUpdate();
         System.out.println("hPos:" + hPos);
         System.out.println();
-
-
-
         itoFSpeedY();
         itoFSpeedX();
+
         thrustOn = false ;
     }
     public double normalForceY(){
@@ -210,7 +210,7 @@ class Rocket{
 
 
     public double viscosityUpdate(){
-        return Math.pow((Constants.e),0.0005*(hPos-900)+0.25);
+        return Math.pow((Constants.e),0.0005*(-1)*(hPos-900)+0.25);
     }
 
     //get variables functions

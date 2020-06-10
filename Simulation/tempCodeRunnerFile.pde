@@ -1,2 +1,0 @@
-
-        // wVelF = speedUpdateX();
