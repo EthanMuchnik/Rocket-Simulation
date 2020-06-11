@@ -16,6 +16,7 @@ class Rocket{
     double wPos;
     double hImg;
     double wImg;
+
     PImage rImage;
 
 
@@ -49,6 +50,10 @@ class Rocket{
     int counter = 0;
     boolean thrustOn = false;
 
+    double scrH;
+    double scrW;
+    Sky theSky;
+
     //Equation Var
         //F = m dot * Ve + (pe - p0) * Ae
 
@@ -68,6 +73,7 @@ class Rocket{
         this.aEng = 50;
         this.aRocket = 5;
         this.rImage = loadImage("images/rocket/smallRocket.png");
+        // this.skyImage = loadImage("images/clouds.png");
         this.wImg = 50.0;
         this.hImg = 300.0;
         this.mFR = mFR;
@@ -75,13 +81,16 @@ class Rocket{
         this.coefDrag = coefDrag;
         this.ePres = 5;
         this.perThrust = 0.2;
+        this.scrH = height/2;
+        this.scrW = width/2-wImg/2;
+        this.theSky = new Sky(hPos, wPos);
     }
 
     public void imagePrint(){
-        translate((float)(wPos + wImg/2), (float)(hPos+hImg/2));
+        translate((float)(scrW + wImg/2), (float)(scrH+hImg/2));
         rotate(counter*(PI/60.0));
-        translate((float)-(wPos + wImg/2), (float)-(hPos+hImg/2));
-        image(rImage,(int)wPos,(int)hPos,(int)wImg,(int)hImg);
+        translate((float)-(scrW + wImg/2), (float)-(scrH+hImg/2));
+        image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
         // System.out.println("hPos initial"+hPos);
     }
 
@@ -99,7 +108,7 @@ class Rocket{
     public double thrustForceX(){
         System.out.println("cos" + Math.cos(Math.toRadians(angleGround)));
         if(thrustOn == true){
-            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)* Math.cos(angleGround+counter*PI/60)*(-1); 
+            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)* Math.cos(angleGround+counter*Constants.turnConst)*(-1); 
         }   
         return  0.0; 
     }
@@ -107,7 +116,7 @@ class Rocket{
     public double thrustForceY(){
         System.out.println("sin" + Math.sin(angleGround+counter*PI/60));
         if(thrustOn == true){
-            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(angleGround+counter*PI/60)*(-1);
+            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(angleGround+counter*Constants.turnConst)*(-1);
         }
         return  0.0;  
     }
@@ -178,6 +187,8 @@ class Rocket{
         System.out.println();
         itoFSpeedY();
         itoFSpeedX();
+        theSky.update(hVelF,wVelF,hPos);
+        theSky.imagePrint();
 
         thrustOn = false ;
     }

@@ -11,14 +11,15 @@ class Constants{
     public final static double pZero = 101.0;//random val for gas const in N*m/(mol*K)
 
     //General Program Consts
-    public final static float frameRate = 10.0;//frameRate
+    public final static float frameRate = 40.0;//frameRate
     public final static double dt = 1/frameRate;//time between each frame in seconds
     public final static double rWidth = 1200;//time between each frame in seconds
     public final static double rHeight = 900;//time between each frame in seconds
 
 
+    //Rocket Tuning Consts
 
-
+    public final static double turnConst = PI/60;
 
 
 
