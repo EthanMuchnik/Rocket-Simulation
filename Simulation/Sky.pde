@@ -1,39 +1,51 @@
 class Sky{
     PImage skyImage;
-    int skyX;
-    int skyY;
+    double skyX;
+    double skyY;
     public Sky(double hPos,double wPos){
-        this.skyImage = loadImage("images/clouds.png");
+        this.skyImage = loadImage("images/cloudsB.png");
         this.skyY = (int)hPos;
         this.skyX = (int)wPos;
     }
     public void imagePrint(){
-        image(skyImage,skyX,skyY);
-        image(skyImage,skyX, skyY+skyImage.height);
-        image(skyImage,skyX + skyImage.width, skyY);
-        image(skyImage,skyX + skyImage.height, skyY+skyImage.height);
+        image(skyImage,(float)(skyX),(float)(skyY));
+        image(skyImage,(float)(skyX), (float)(skyY+skyImage.height));
+        image(skyImage,(float)(skyX + skyImage.width),(float) (skyY));
+        image(skyImage,(float)(skyX + skyImage.height), (float)(skyY+skyImage.height));
     }
-    public void update(double hVel, double wVel, double hPos){
+    public void update(double hVel, double wVel){
         skyY-=hVel;
         skyX-=wVel;
-        if(skyY >= 0 && (int)hPos<=0){
-            System.out.println(skyImage.height);
+        System.out.println("skyY" + skyY);
+        System.out.println("skyX" + skyX);
+        // System.out.println("hPos" + hPos);
+
+        System.out.println("height" + skyImage.height);
+        if(skyY > 0.0){
+            // System.out.println(skyImage.height);
             skyY -=skyImage.height;
             System.out.println("down");
         }
-        if(skyY <= (-1)*skyImage.height){
+        if((int)skyY < (-1)*skyImage.height){
             skyY +=skyImage.height;
             System.out.println("up");
         }
-        if(skyX >= 0){
+        if(skyX > 0.0){
             skyX -=skyImage.width;
             System.out.println("right");
         }
-        if(skyX <= (-1)*skyImage.width){
+        if((int)skyX < (-1)*skyImage.width){
             skyX +=skyImage.width;
             System.out.println("left");
         }
+        if(skyY > 0){
+            skyY = 0;
+        }
     }
+
+    public void modY(double mod){
+        skyY+=mod;
+    };
 //     public void down(){
 //   if(skyY >= 0){
 //     skyY -=skyImage.height;

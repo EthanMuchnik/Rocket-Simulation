@@ -23,8 +23,8 @@ void draw(){
 
     speedX+=0.2;
     speedY+=0.2;
-    myRocket.imagePrint();
     myRocket.generalUpdate();
+    myRocket.imagePrint();
     // theSky.imagePrint();
 }
 

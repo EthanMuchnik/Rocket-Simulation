@@ -102,11 +102,11 @@ class Rocket{
     public double updatePressure(){
         // System.out.println("before Pressure"+ -1*((((Constants.molarMass)*(Constants.gravAcc))/((Constants.tempConst)*(Constants.rGasConst)))*(hPos-900)));
         // System.out.println("before Pressure 2.0"+ (hPos-900));
-        return Constants.pZero*Math.pow( Constants.e, ((((Constants.molarMass)*(Constants.gravAcc))/((Constants.tempConst)*(Constants.rGasConst)))*(hPos-900)) );
+        return Constants.pZero*Math.pow( Constants.e, ((((Constants.molarMass)*(Constants.gravAcc))/((Constants.tempConst)*(Constants.rGasConst)))*(hPos)) );
     }
 
     public double thrustForceX(){
-        System.out.println("cos" + Math.cos(Math.toRadians(angleGround)));
+        // System.out.println("cos" + Math.cos(Math.toRadians(angleGround)));
         if(thrustOn == true){
             return  (mFR*eVel+(ePres-pres)*aEng*perThrust)* Math.cos(angleGround+counter*Constants.turnConst)*(-1); 
         }   
@@ -114,7 +114,7 @@ class Rocket{
     }
 
     public double thrustForceY(){
-        System.out.println("sin" + Math.sin(angleGround+counter*PI/60));
+        // System.out.println("sin" + Math.sin(angleGround+counter*PI/60));
         if(thrustOn == true){
             return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(angleGround+counter*Constants.turnConst)*(-1);
         }
@@ -142,19 +142,19 @@ class Rocket{
 
     public double forceUpdateX(){
         thrustFX = thrustForceX();//thrust of Engine X
-        System.out.println("thrustFX:" + thrustFX);
+        // System.out.println("thrustFX:" + thrustFX);
         airDragFX = airDragForceX();//force of air resistance
-        System.out.println("airDragX:" + airDragFX);
+        // System.out.println("airDragX:" + airDragFX);
         return thrustFX + airDragFX;
     }
 
     public double forceUpdateY(){
         thrustFY = thrustForceY();//thrust of Engine Y
-        System.out.println("thrustFY:" + thrustFY);
+        // System.out.println("thrustFY:" + thrustFY);
         gravF= gravityForce();//force of gravity
-        System.out.println("gravF:" + gravF);
+        // System.out.println("gravF:" + gravF);
         airDragFY = airDragForceY();//force of air resistance
-        System.out.println("airDragY:" + airDragFY);
+        // System.out.println("airDragY:" + airDragFY);
         return thrustFY + airDragFY+gravF;
     }
 
@@ -177,23 +177,23 @@ class Rocket{
         // System.out.println("net x: " +netForceX);
         netForceY = forceUpdateY();
         netForceY = netForceY - normalForceY();
-        System.out.println("net y"+ netForceY);
+        // System.out.println("net y"+ netForceY);
         viscosity = viscosityUpdate();
         // wPos = setWPos();
         // wVelF = speedUpdateX();
-        hUpdate();
-        wUpdate();
-        System.out.println("hPos:" + hPos);
+        // System.out.println("hPos:" + hPos);
         System.out.println();
         itoFSpeedY();
         itoFSpeedX();
-        theSky.update(hVelF,wVelF,hPos);
+        hUpdate();
+        wUpdate();
+        theSky.update(hVelF,wVelF);
         theSky.imagePrint();
 
         thrustOn = false ;
     }
     public double normalForceY(){
-        if(hPos>900 ){
+        if(hPos>0 ){
             normalFY = netForceY*(-1);
             return normalFY;
         }
@@ -212,16 +212,16 @@ class Rocket{
 
     public void itoFSpeedY(){
         hVelI = hVelF;
-        System.out.println("hightFinalSpeed" + hVelF);
+        // System.out.println("hightFinalSpeed" + hVelF);
     }
     public void itoFSpeedX(){
         wVelI = wVelF;
-        System.out.println("widthFinalSpeed" + wVelF);
+        // System.out.println("widthFinalSpeed" + wVelF);
     }
 
 
     public double viscosityUpdate(){
-        return Math.pow((Constants.e),0.0005*(-1)*(hPos-900)+0.25);
+        return Math.pow((Constants.e),0.0005*(-1)*(hPos)+0.25);
     }
 
     //get variables functions
@@ -233,41 +233,44 @@ class Rocket{
     }    
 
     public void wUpdate(){
-        if(hPos<600){
+        if(hPos<0){
             wVelF =(netForceX*Constants.dt)/massC+ wVelI;
             wPos+=wVelF;
 
         }
-        else if(hPos==600 && thrustOn ){
+        else if(hPos==0 && thrustOn ){
             wVelF =(netForceX*Constants.dt)/massC+ wVelI;
             wPos+=wVelF;
         }
-        else if(hPos==600 && !thrustOn ){
+        else if(hPos==0 && !thrustOn ){
             wVelF = 0;
         }
-        else if(hPos>600){
+        else if(hPos>0){
             wVelF = 0;
         }
     }
     public void hUpdate(){
-        System.out.println("thrustOn: "+  thrustOn);
-        if(hPos<600){
+        // System.out.println("thrustOn: "+  thrustOn);
+        if(hPos<0){
             hVelF =(netForceY*Constants.dt)/massC+ hVelI;
             hPos+=hVelF;
 
         }
-        else if(hPos==600 && thrustOn ){
+        else if(hPos==0 && thrustOn ){
             hVelF =(netForceY*Constants.dt)/massC+ hVelI;
             hPos+=hVelF;
         }
-        else if(hPos==600 && !thrustOn ){
+        else if(hPos==0 && !thrustOn ){
             hVelF = 0;
-            hPos =  600;
+            hPos =  0;
         }
-        else if(hPos>600){
+        else if(hPos>0){
             hVelF = 0;
-            hPos =  600;
+            double mod = hPos;
+            hPos =  0;
+            theSky.modY(mod);
         }
+        System.out.println("hPos " + hPos);
     }    
     public double setWPos(){
         return wPos+=wVelF;
