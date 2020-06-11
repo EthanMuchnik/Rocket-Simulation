@@ -11,7 +11,7 @@ class Sky{
         image(skyImage,(float)(skyX),(float)(skyY));
         image(skyImage,(float)(skyX), (float)(skyY+skyImage.height));
         image(skyImage,(float)(skyX + skyImage.width),(float) (skyY));
-        image(skyImage,(float)(skyX + skyImage.height), (float)(skyY+skyImage.height));
+        image(skyImage,(float)(skyX + skyImage.width), (float)(skyY+skyImage.height));
     }
     public void update(double hVel, double wVel){
         skyY-=hVel;
@@ -21,20 +21,20 @@ class Sky{
         // System.out.println("hPos" + hPos);
 
         System.out.println("height" + skyImage.height);
-        if(skyY > 0.0){
+        if(skyY >= 0.0){
             // System.out.println(skyImage.height);
             skyY -=skyImage.height;
             System.out.println("down");
         }
-        if((int)skyY < (-1)*skyImage.height){
+        if((int)skyY <= (-1)*skyImage.height){
             skyY +=skyImage.height;
             System.out.println("up");
         }
-        if(skyX > 0.0){
+        if(skyX >= 0.0){
             skyX -=skyImage.width;
             System.out.println("right");
         }
-        if((int)skyX < (-1)*skyImage.width){
+        if((int)skyX <= (-1)*skyImage.width){
             skyX +=skyImage.width;
             System.out.println("left");
         }
