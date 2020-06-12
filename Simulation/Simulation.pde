@@ -4,8 +4,10 @@ double yPos = 0;
 double speedX = 0;
 double speedY = 0;
 
-public Rocket myRocket;
+int skyG = 175;
+int skyB = 255;
 
+public Rocket myRocket;
 
 // PImage rocket;
 void setup(){
@@ -14,11 +16,12 @@ void setup(){
     // rocket = loadImage("images/rocket/smallRocket.png");
     myRocket = new Rocket(0,0, 500, 5,0.7);
 }
+
 void draw(){
     yPos+=speedY;
     xPos+=speedX;
 
-    background(125, 150, 100);
+    background(0, 0, 0);
     rect((int)xPos, (int)yPos, 60, 60);
 
     speedX+=0.2;
@@ -31,13 +34,13 @@ void draw(){
 void keyPressed() {
 
     String aKey = (Character.toString(key));
-    if(aKey.equals("a")){
+    if(aKey.equals("w")){
             myRocket.thrust();
         }
-    else if(aKey.equals("k")){
+    else if(aKey.equals("a")){
         myRocket.leftTurn();
     }
-    else if(aKey.equals("j")){
+    else if(aKey.equals("d")){
         myRocket.rightTurn();
     }
 }

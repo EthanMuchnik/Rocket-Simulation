@@ -280,10 +280,10 @@ class Rocket{
             thrustOn = true;
     }   
     public void leftTurn(){
-        counter++;
+        counter--;
         // angleGround+=Math.to
     }
     public void rightTurn(){
-        counter--;
+        counter++;
     }
 }
