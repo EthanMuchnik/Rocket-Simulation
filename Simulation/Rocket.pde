@@ -53,6 +53,7 @@ class Rocket{
     double scrH;
     double scrW;
     Sky theSky;
+    Cloud cloud;
 
     //Equation Var
         //F = m dot * Ve + (pe - p0) * Ae
@@ -84,6 +85,7 @@ class Rocket{
         this.scrH = height/2;
         this.scrW = width/2-wImg/2;
         this.theSky = new Sky(hPos, wPos);
+        this.cloud = new Cloud(random(0, 1200), random(0, 900));
     }
 
     public void imagePrint(){

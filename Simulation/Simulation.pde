@@ -17,27 +17,24 @@ void setup(){
     frameRate(Constants.frameRate);
     // rocket = loadImage("images/rocket/smallRocket.png");
     myRocket = new Rocket(0,0, 500, 5,0.7);
+    ground = new Ground();
 }
 
 void draw(){
     yPos+=speedY;
     xPos+=speedX;
 
-    background(0, 0, 0);
     rect((int)xPos, (int)yPos, 60, 60);
     
-    ground.drawGround();
-
     speedX+=0.2;
     speedY+=0.2;
     myRocket.generalUpdate();
     myRocket.imagePrint();
+    cloud = new Cloud(random(0, 1200), random(0, 900));
+    cloud.imagePrint();
     // theSky.imagePrint();
-    if(myRocket.hPos < -6500) {
-      cloud = new Cloud(random(0, 1200), random(0, 900));
-      cloud.imagePrint();
+    ground.drawGround();
     
-    }
 }
 
 void keyPressed() {
