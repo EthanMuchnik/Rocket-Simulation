@@ -12,9 +12,12 @@ class Sky{
         this.skyX = (int)wPos;
     }
     public void imagePrint(){
-        if(myRocket.hPos < -10000 && myRocket.hVelI < 0){
-          skyG -= 1;
-          skyB -= 1;
+        //sky starts to darken once it leaves the troposphere
+        if(myRocket.hPos < -13000 && myRocket.hVelI < 0){
+          if(skyG >= 0 && skyB >= 0){
+            skyG -= 1;
+            skyB -= 1;
+          }
         }
         else if(myRocket.hVelI > 0){
           if(skyG <= 175 && skyB <= 255){
@@ -22,9 +25,6 @@ class Sky{
             skyB += 1;
           }
         }
-        System.out.println("hvel " + myRocket.hVelI);
-        System.out.println("green:" + skyG);
-        System.out.println("blue:" + skyB);
         skyImage.setStroke(false);
         skyImage.setFill(color(0, skyG, skyB));
         shape(skyImage,(float)(skyX),(float)(skyY));

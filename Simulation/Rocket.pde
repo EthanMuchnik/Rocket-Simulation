@@ -72,7 +72,7 @@ class Rocket{
         this.viscosity = viscosityUpdate();
         this.aEng = 50;
         this.aRocket = 5;
-        this.rImage = loadImage("images/rocket/smallRocket.png");
+        this.rImage = loadImage("Rocket.png");
         // this.skyImage = loadImage("images/clouds.png");
         this.wImg = 50.0;
         this.hImg = 300.0;
@@ -88,7 +88,7 @@ class Rocket{
 
     public void imagePrint(){
         translate((float)(scrW + wImg/2), (float)(scrH+hImg/2));
-        rotate(counter*(PI/60.0));
+        rotate(counter*(PI/60));
         translate((float)-(scrW + wImg/2), (float)-(scrH+hImg/2));
         image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
         // System.out.println("hPos initial"+hPos);

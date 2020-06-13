@@ -8,6 +8,8 @@ int skyG = 175;
 int skyB = 255;
 
 public Rocket myRocket;
+public Cloud cloud;
+public Ground ground;
 
 // PImage rocket;
 void setup(){
@@ -23,12 +25,19 @@ void draw(){
 
     background(0, 0, 0);
     rect((int)xPos, (int)yPos, 60, 60);
+    
+    ground.drawGround();
 
     speedX+=0.2;
     speedY+=0.2;
     myRocket.generalUpdate();
     myRocket.imagePrint();
     // theSky.imagePrint();
+    if(myRocket.hPos < -6500) {
+      cloud = new Cloud(random(0, 1200), random(0, 900));
+      cloud.imagePrint();
+    
+    }
 }
 
 void keyPressed() {
