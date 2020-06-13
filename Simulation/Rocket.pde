@@ -53,7 +53,6 @@ class Rocket{
     double scrH;
     double scrW;
     Sky theSky;
-    Cloud cloud;
 
     //Equation Var
         //F = m dot * Ve + (pe - p0) * Ae
@@ -74,7 +73,6 @@ class Rocket{
         this.aEng = 50;
         this.aRocket = 5;
         this.rImage = loadImage("Rocket.png");
-        // this.skyImage = loadImage("images/clouds.png");
         this.wImg = 50.0;
         this.hImg = 300.0;
         this.mFR = mFR;
@@ -85,14 +83,15 @@ class Rocket{
         this.scrH = height/2;
         this.scrW = width/2-wImg/2;
         this.theSky = new Sky(hPos, wPos);
-        this.cloud = new Cloud(random(0, 1200), random(0, 900));
     }
 
     public void imagePrint(){
+        pushMatrix();
         translate((float)(scrW + wImg/2), (float)(scrH+hImg/2));
         rotate(counter*(PI/60));
         translate((float)-(scrW + wImg/2), (float)-(scrH+hImg/2));
         image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
+        popMatrix();
         // System.out.println("hPos initial"+hPos);
     }
 

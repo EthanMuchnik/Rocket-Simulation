@@ -7,6 +7,8 @@ double speedY = 0;
 int skyG = 175;
 int skyB = 255;
 
+int gY = 850;
+
 public Rocket myRocket;
 public Cloud cloud;
 public Ground ground;
@@ -17,23 +19,27 @@ void setup(){
     frameRate(Constants.frameRate);
     // rocket = loadImage("images/rocket/smallRocket.png");
     myRocket = new Rocket(0,0, 500, 5,0.7);
-    ground = new Ground();
+    ground = new Ground(gY);
 }
 
 void draw(){
-    yPos+=speedY;
-    xPos+=speedX;
-
-    rect((int)xPos, (int)yPos, 60, 60);
     
-    speedX+=0.2;
-    speedY+=0.2;
+  
     myRocket.generalUpdate();
     myRocket.imagePrint();
     cloud = new Cloud(random(0, 1200), random(0, 900));
     cloud.imagePrint();
     // theSky.imagePrint();
-    ground.drawGround();
+    ground.drawGround(gY);
+    if(myRocket.hPos > -400 && myRocket.hVelI < 0) {
+      gY -= myRocket.hVelI;
+    }
+    else if(myRocket.hPos > -400 && myRocket.hVelI > 0 && gY > 850) {
+      gY -= myRocket.hVelI;
+    }
+    if(gY < 850) {
+      gY = 850;
+    }
     
 }
 
