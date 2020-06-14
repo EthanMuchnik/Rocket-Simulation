@@ -14,16 +14,12 @@ class Sky{
     public void imagePrint(){
         //sky starts to darken once it leaves the troposphere
         if(myRocket.hPos < -13000 && myRocket.hVelI < 0){
-          if(skyG >= 0 && skyB >= 0){
-            skyG -= 1;
-            skyB -= 1;
-          }
+          skyG -= 1;
+          skyB -= 1;
         }
-        else if(myRocket.hVelI > 0){
-          if(skyG <= 175 && skyB <= 255){
+        if(myRocket.hVelI > 0 && skyG <= 175 && skyB <= 255){
             skyG += 1;
             skyB += 1;
-          }
         }
         skyImage.setStroke(false);
         skyImage.setFill(color(0, skyG, skyB));

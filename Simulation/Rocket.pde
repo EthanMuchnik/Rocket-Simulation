@@ -19,7 +19,6 @@ class Rocket{
 
     PImage rImage;
 
-
     double angleGround;
 
     double hVelI;
@@ -60,7 +59,7 @@ class Rocket{
             //Pressure //dP/P = -(Mg/RT)(dh)--> P = P0e^((-Mg/RT)(h)) https://www.math24.net/barometric-formula/#:~:text=P(h)%3D101.325%E2%8B%85,0.00012h)%5BmmHg%5D.
             // Mass
 
-    public Rocket(double hPos,double wPos, double eVel,double mFR, double coefDrag){
+    public Rocket(double hPos,double wPos, double eVel,double mFR, double coefDrag, PImage rImage){
         this.hPos = hPos;
         this.wPos = wPos;
         this.hVelI = 0;
@@ -72,7 +71,7 @@ class Rocket{
         this.viscosity = viscosityUpdate();
         this.aEng = 50;
         this.aRocket = 5;
-        this.rImage = loadImage("Rocket.png");
+        this.rImage = rImage;
         this.wImg = 50.0;
         this.hImg = 300.0;
         this.mFR = mFR;
@@ -85,12 +84,12 @@ class Rocket{
         this.theSky = new Sky(hPos, wPos);
     }
 
-    public void imagePrint(){
+    public void imagePrint(PImage r, int hImg){
         pushMatrix();
         translate((float)(scrW + wImg/2), (float)(scrH+hImg/2));
         rotate(counter*(PI/60));
         translate((float)-(scrW + wImg/2), (float)-(scrH+hImg/2));
-        image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
+        image(r,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
         popMatrix();
         // System.out.println("hPos initial"+hPos);
     }

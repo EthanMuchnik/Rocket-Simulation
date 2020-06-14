@@ -1,13 +1,10 @@
-double xPos = 0;
-double yPos = 0;
-
-double speedX = 0;
-double speedY = 0;
-
 int skyG = 175;
 int skyB = 255;
 
 int gY = 850;
+int rocketH = 300;
+
+String rocketFile = "Rocket.png";
 
 public Rocket myRocket;
 public Cloud cloud;
@@ -17,19 +14,24 @@ public Ground ground;
 void setup(){
     size(1200,900);
     frameRate(Constants.frameRate);
-    // rocket = loadImage("images/rocket/smallRocket.png");
-    myRocket = new Rocket(0,0, 500, 5,0.7);
+    myRocket = new Rocket(0,0, 500, 5,0.7, loadImage(rocketFile));
     ground = new Ground(gY);
 }
 
 void draw(){
+    if(myRocket.thrustForceY() != 0) {
+      rocketFile = "RocketThrust.png";
+      rocketH = 350;
+    }
+    else {
+      rocketFile = "Rocket.png";
+      rocketH = 300;
+    }
     
-  
     myRocket.generalUpdate();
-    myRocket.imagePrint();
+    myRocket.imagePrint(loadImage(rocketFile), rocketH);
     cloud = new Cloud(random(0, 1200), random(0, 900));
     cloud.imagePrint();
-    // theSky.imagePrint();
     ground.drawGround(gY);
     if(myRocket.hPos > -400 && myRocket.hVelI < 0) {
       gY -= myRocket.hVelI;
