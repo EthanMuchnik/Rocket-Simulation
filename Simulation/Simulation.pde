@@ -42,7 +42,11 @@ void draw(){
     if(gY < 850) {
       gY = 850;
     }
-    
+    textFont(createFont("OCR A Extended", 15));
+    image(loadImage("StatsBox.png"), 925, 25);
+    text("Height: " + round((float)(-1*myRocket.hPos)) + " m", 950, 50);
+    text("Fuel Left: ", 950, 75);
+    text("Meme Level: Over 9000", 950, 100);
 }
 
 void keyPressed() {
