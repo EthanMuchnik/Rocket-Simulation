@@ -302,4 +302,7 @@ class Rocket{
     public void leftTurn(){
         counter--;
     }
+    // public void double(){
+    //     cloud.returnRand();
+    // }
 }

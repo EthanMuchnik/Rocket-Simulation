@@ -34,6 +34,7 @@ void draw(){
     text("Height: " + round((float)(-1*myRocket.getHPos())) + " m", 950, 50);
     text("Fuel Left: ", 950, 75);
     text("Meme Level: Over 9000", 950, 100);
+    // text("rand" + myRocket.returnThing(), 950, 125);
     
     // for(int i = 0; i<keys.size();i++){
     //   System.out.println(keys.get(i));

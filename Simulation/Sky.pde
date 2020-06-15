@@ -7,6 +7,7 @@ class Sky{
     int skyHeight = 900;
     int skyWidth = 1200;
     double modC;
+    Clouds cloud;
     public Sky(double hPos,double wPos){
         // this.skyImage = loadImage("images/cloudsB.png");
         // this.skyY = (int)hPos;
@@ -14,64 +15,69 @@ class Sky{
         this.skyImage = createShape(RECT, 0, 0, skyWidth, skyHeight);
         this.skyY = (int)hPos;
         this.skyX = (int)wPos;
+        cloud = new Clouds();
     }
     public void imagePrint(){
         // image(skyImage,(float)(skyX),(float)(skyY));
         // image(skyImage,(float)(skyX), (float)(skyY+skyImage.height));
         // image(skyImage,(float)(skyX + skyImage.width),(float) (skyY));
         // image(skyImage,(float)(skyX + skyImage.width), (float)(skyY+skyImage.height));
-        modC = myRocket.getHPos() * 0.001;
+        modC = myRocket.getHPos() * 0.002;
         skyG = 175 + (int)modC;
         skyB = 255 + (int)modC;
         if(skyG<0){
           skyG = 0;
         }
-        if(skyG<0){
-          skyG = 0;
+        if(skyB<0){
+          skyB = 0;
         }
-        if(skyG<0){
-          skyG = 0;
+        if(skyB>255){
+          skyB = 255;
         }
-        if(skyG<0){
-          skyG = 0;
+        if(skyG>175){
+          skyG = 175;
         }
-        if(myRocket.hVelI > 0 && skyG <= 175 && skyB <= 255){
-            skyG += 1;
-            skyB += 1;
-        }
+        // if(myRocket.hVelI > 0 && skyG <= 175 && skyB <= 255){
+        //     skyG += 1;
+        //     skyB += 1;
+        // }
         skyImage.setStroke(false);
         skyImage.setFill(color(0, skyG, skyB));
         shape(skyImage,(float)(skyX),(float)(skyY));
         shape(skyImage,(float)(skyX), (float)(skyY+skyHeight));
         shape(skyImage,(float)(skyX + skyWidth),(float) (skyY));
         shape(skyImage,(float)(skyX + skyWidth), (float)(skyY+skyHeight));
+        cloud.imagePrint(skyX, skyY, myRocket.getHPos(), myRocket.hVelF, myRocket.wVelF);
+
+
     }
     public void update(double hVel, double wVel){
         skyY-=hVel;
         skyX-=wVel;
         System.out.println("skyY" + skyY);
         System.out.println("skyX" + skyX);
+        
         // System.out.println("hPos" + hPos);
 
         // System.out.println("height" + skyImage.height);
         if(skyY >= 0.0){
             // System.out.println(skyImage.height);
             skyY -=skyHeight;
-            System.out.println("down");
+            // System.out.println("down");
         }
         if((int)skyY <= (-1)*skyHeight){
             skyY +=skyHeight;
-            System.out.println("up");
+            // System.out.println("up");
         }
         if(skyX >= 0.0){
             skyX -=skyWidth;
-            System.out.println("right");
+            // System.out.println("right");
         }
         if((int)skyX <= (-1)*skyWidth){
             skyX +=skyWidth;
-            System.out.println("left");
+            // System.out.println("left");
         }
-        if(skyY > 0){
+        if(skyY > 0 || (skyY<-899.99&&skyY>-900.00)){
             skyY = 0;
         }
     }
