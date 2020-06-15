@@ -18,6 +18,7 @@ class Rocket{
     double wImg;
 
     PImage rImage;
+    PImage rTImage;
 
 
     double angleGround;
@@ -72,7 +73,8 @@ class Rocket{
         this.viscosity = viscosityUpdate();
         this.aEng = 50;
         this.aRocket = 5;
-        this.rImage = loadImage("images/rocket/smallRocket.png");
+        this.rImage = loadImage("images/rocket/Rocket.png");
+        this.rTImage = loadImage("images/rocket/RocketThrust.png");
         // this.skyImage = loadImage("images/clouds.png");
         this.wImg = 50.0;
         this.hImg = 300.0;
@@ -87,10 +89,20 @@ class Rocket{
     }
 
     public void imagePrint(){
+        pushMatrix();
         translate((float)(scrW + wImg/2), (float)(scrH+hImg/2));
         rotate(counter*(PI/60.0));
         translate((float)-(scrW + wImg/2), (float)-(scrH+hImg/2));
-        image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
+        if(!thrustOn){
+            image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
+            System.out.println("Ni");
+        }
+        else{
+            image(rTImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg+50);
+            System.out.println("NAni");
+        }
+        popMatrix();
+        
         // System.out.println("hPos initial"+hPos);
     }
 
@@ -190,7 +202,7 @@ class Rocket{
         theSky.update(hVelF,wVelF);
         theSky.imagePrint();
 
-        thrustOn = false ;
+        // thrustOn = false ;
     }
     public double normalForceY(){
         if(hPos>0 ){
@@ -271,6 +283,7 @@ class Rocket{
             theSky.modY(mod);
         }
         System.out.println("hPos " + hPos);
+        System.out.println(hVelF + "hVelF");
     }    
     public double setWPos(){
         return wPos+=wVelF;
@@ -278,12 +291,15 @@ class Rocket{
 
     public void thrust(){
             thrustOn = true;
+    }
+    public void noThrust(){
+        thrustOn = false;
     }   
-    public void leftTurn(){
+    public void rightTurn(){
         counter++;
         // angleGround+=Math.to
     }
-    public void rightTurn(){
+    public void leftTurn(){
         counter--;
     }
 }
