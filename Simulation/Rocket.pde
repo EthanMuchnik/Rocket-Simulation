@@ -83,7 +83,7 @@ class Rocket{
         this.coefDrag = coefDrag;
         this.ePres = 5;
         this.perThrust = 0.2;
-        this.scrH = height/2;
+        this.scrH = height-350;
         this.scrW = width/2-wImg/2;
         this.theSky = new Sky(hPos, wPos);
     }
@@ -95,13 +95,13 @@ class Rocket{
         translate((float)-(scrW + wImg/2), (float)-(scrH+hImg/2));
         if(!thrustOn){
             image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
-            System.out.println("Ni");
         }
         else{
             image(rTImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg+50);
-            System.out.println("NAni");
         }
         popMatrix();
+        System.out.println("scrH" + scrH);
+        System.out.println("scrW" + scrW);
         
         // System.out.println("hPos initial"+hPos);
     }
