@@ -1,3 +1,6 @@
+import processing.sound.*;
+SoundFile file;
+
 ArrayList<Character> keys;
 
 public Rocket myRocket;
@@ -7,6 +10,8 @@ void setup(){
     frameRate(Constants.frameRate);
     setupKeys();
     myRocket = new Rocket(0,0, 15000, 5,0.7);
+    file = new SoundFile(this, "shootingstars.mp3");
+    file.play();
 }
 void draw(){
     background(125, 150, 100);
