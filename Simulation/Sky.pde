@@ -2,8 +2,8 @@ class Sky{
     PShape skyImage;
     double skyX;
     double skyY;
-    int skyB= 175;
-    int skyR = 255;
+    int skyG= 175;
+    int skyB = 255;
     int skyHeight = 900;
     int skyWidth = 1200;
     double modC;
@@ -17,23 +17,23 @@ class Sky{
     }
     public void imagePrint(){
         modC = myRocket.getHPos() * 0.002;
-        skyB = 105 + (int)modC;
-        skyR = 155 + (int)modC;
-        if(skyR<0){
-          skyR = 0;
-        }
-        if(skyB<0){
+        skyG = 175 + (int)modC;
+        skyB = 255 + (int)modC;
+        if(skyB < 0){
           skyB = 0;
         }
-        if(skyR>185){
-          skyR = 185;
+        if(skyG < 0){
+          skyG = 0;
         }
-        if(skyB>105){
-          skyB = 105;
+        if(skyB > 255){
+          skyB = 255;
+        }
+        if(skyG > 175){
+          skyG = 175;
         }
 
         skyImage.setStroke(false);
-        skyImage.setFill(color(skyR, 0, skyB));
+        skyImage.setFill(color(0, skyG, skyB));
         shape(skyImage,(float)(skyX),(float)(skyY));
         shape(skyImage,(float)(skyX), (float)(skyY+skyHeight));
         shape(skyImage,(float)(skyX + skyWidth),(float) (skyY));
