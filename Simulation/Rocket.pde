@@ -56,10 +56,6 @@ class Rocket{
     Sky theSky;
 
     //Equation Var
-        //F = m dot * Ve + (pe - p0) * Ae
-
-            //Pressure //dP/P = -(Mg/RT)(dh)--> P = P0e^((-Mg/RT)(h)) https://www.math24.net/barometric-formula/#:~:text=P(h)%3D101.325%E2%8B%85,0.00012h)%5BmmHg%5D.
-            // Mass
 
     public Rocket(double hPos,double wPos, double eVel,double mFR, double coefDrag){
         this.hPos = hPos;
@@ -106,14 +102,10 @@ class Rocket{
         // System.out.println("hPos initial"+hPos);
     }
 
-    // F = thrustForce-drag-mg = ma 
-    // t is constant is it increases in increments of 0.2
-    // Ft = I --> p = mv-vi --> Rocket:  M (u + du) - M u = M du
-
 
     public double updatePressure(){
-        // System.out.println("before Pressure"+ -1*((((Constants.molarMass)*(Constants.gravAcc))/((Constants.tempConst)*(Constants.rGasConst)))*(hPos-900)));
-        // System.out.println("before Pressure 2.0"+ (hPos-900));
+        //Pressure //dP/P = -(Mg/RT)(dh)--> P = P0e^((-Mg/RT)(h)) https://www.math24.net/barometric-formula/#:~:text=P(h)%3D101.325%E2%8B%85,0.00012h)%5BmmHg%5D.
+        // Mass
         return Constants.pZero*Math.pow( Constants.e, ((((Constants.molarMass)*(Constants.gravAcc))/((Constants.tempConst)*(Constants.rGasConst)))*(hPos)) );
     }
 

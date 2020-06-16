@@ -13,8 +13,8 @@ class Constants{
     //General Program Consts
     public final static float frameRate = 20.0;//frameRate
     public final static double dt = 1/frameRate;//time between each frame in seconds
-    public final static double rWidth = 1200;//time between each frame in seconds
-    public final static double rHeight = 900;//time between each frame in seconds
+    public final static double rWidth = 1200;//Width of the Screen
+    public final static double rHeight = 900;//Height of The Screen
 
 
     //Rocket Tuning Consts
