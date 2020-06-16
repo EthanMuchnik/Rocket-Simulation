@@ -233,7 +233,7 @@ class Rocket{
 
 
     public double viscosityUpdate(){
-        return Math.pow((Constants.e),0.0005*(hPos)+0.25);
+        return Math.pow((Constants.e),0.00005*(hPos)+0.25);
     }
 
     //get variables functions
