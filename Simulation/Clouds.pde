@@ -30,7 +30,7 @@ class Clouds{
             image(plain,(float)(skyX + 1200), (float)(skyY+900));
             System.out.println("spread");
         }
-        else if(hPos<=-1800 && hPos>=-2700){
+        else if(hPos<=-1800){
             if( hPos<-1800&& hPos>-2700){
                 image(spread,(float)(skyX),(float)(skyY));
                 image(plain,(float)(skyX), (float)(skyY+900));
