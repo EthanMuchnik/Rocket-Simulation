@@ -26,7 +26,7 @@ public class TerrainAll{
         // System.out.println("num Objects" + allTerrains.get(0).j());
         if(hPos<0 && hPos>=-900){
             // System.out.println(scraa);
-            if(rand==0 && rand<=1200){
+            if(rand>=0 && rand<=1200){
                 image(plain,(float)(skyX),(float)(skyY));
                 image(allTerrains.get(0).tImage,(float)(skyX), (float)(skyY+900));
                 image(plain,(float)(skyX + 1200),(float) (skyY));
@@ -72,8 +72,8 @@ public class TerrainAll{
             }
         }
         else if(hPos==0){
-
-            if(rand==0 && rand<=1200){
+System.out.println("bisha");
+            if(rand>=0 && rand<=1200){
                 image(allTerrains.get(0).tImage,(float)(skyX),(float)(skyY));
                 image(allTerrains.get(0).tImage,(float)(skyX), (float)(skyY+900));
                 image(allTerrains.get(1).tImage,(float)(skyX + 1200),(float) (skyY));
