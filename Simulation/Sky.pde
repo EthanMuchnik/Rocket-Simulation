@@ -8,6 +8,7 @@ class Sky{
     int skyWidth = 1200;
     double modC;
     Clouds cloud;
+    TerrainAll terrain;
     public Sky(double hPos,double wPos){
         // this.skyImage = loadImage("images/cloudsB.png");
         // this.skyY = (int)hPos;
@@ -16,6 +17,7 @@ class Sky{
         this.skyY = (int)hPos;
         this.skyX = (int)wPos;
         cloud = new Clouds();
+        terrain = new TerrainAll();
     }
     public void imagePrint(){
         // image(skyImage,(float)(skyX),(float)(skyY));
@@ -48,8 +50,7 @@ class Sky{
         shape(skyImage,(float)(skyX + skyWidth),(float) (skyY));
         shape(skyImage,(float)(skyX + skyWidth), (float)(skyY+skyHeight));
         cloud.imagePrint(skyX, skyY, myRocket.getHPos(), myRocket.hVelF, myRocket.wVelF);
-
-
+        terrain.imagePrint(skyX, skyY, myRocket.getHPos(), myRocket.getWPos());
     }
     public void update(double hVel, double wVel){
         skyY-=hVel;
