@@ -88,11 +88,11 @@ class Rocket{
         translate((float)(scrW + wImg/2), (float)(scrH+hImg/2));
         rotate(counter*(PI/60.0));
         translate((float)-(scrW + wImg/2), (float)-(scrH+hImg/2));
-        if(!thrustOn){
-            image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
+        if(thrustOn && (int)(massC-massE) >0){
+            image(rTImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg+50);
         }
         else{
-            image(rTImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg+50);
+            image(rImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg);
         }
         popMatrix();     
     }
@@ -100,7 +100,7 @@ class Rocket{
     public double massUpdate(){
         if(thrustOn){
             if(massC-mFR*perThrust>=massE){
-                return massC-=(mFR*perThrust)*0.7;
+                return massC-=(mFR*perThrust)*0.2;
             }
             else{
                 massC = massE;
@@ -134,7 +134,7 @@ class Rocket{
     }
 
     public double thrustForceY(){
-        if(thrustOn == true){
+        if(thrustOn == true && (int)(massC-massE) >0 ){
             return  (mFR*eVel+(ePres-pres)*aEng)*perThrust*Math.sin(angleGround+counter*Constants.turnConst)*(-1);
         }
         return  0.0;  
