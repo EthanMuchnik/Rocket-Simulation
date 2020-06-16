@@ -7,6 +7,7 @@ class Clouds{
     PImage world;
     PImage pika;
     PImage boys;
+    PImage ground;
     double hCloud = 0;
     double wCloud = 0;
     double rand = 0;
@@ -20,24 +21,42 @@ class Clouds{
         this.world = loadImage("images/rocket/world.png");
         this.pika = loadImage("images/rocket/pika.png");
         this.boys = loadImage("images/rocket/boys.png");
+        this.ground = loadImage("images/rocket/background.png");
     }
     public void imagePrint(double skyX, double skyY, double hPos, double hVel, double wVel){
 
         rand =  ((-1)*hPos)%2700;
         randP = ((hPos)*(-1) + 900)%2700;
-
-        if(hPos>-1800){
-            image(plain,(float)(skyX),(float)(skyY));
-            image(plain,(float)(skyX), (float)(skyY+900));
-            image(plain,(float)(skyX + 1200),(float) (skyY));
-            image(plain,(float)(skyX + 1200), (float)(skyY+900));
+        if(hPos>=0){
+            image(ground,(float)(skyX),(float)(skyY+300));
+            image(ground,(float)(skyX), (float)(skyY+900+300));
+            image(ground,(float)(skyX + 1200),(float) (skyY+300));
+            image(ground,(float)(skyX + 1200), (float)(skyY+900+300));
         }
-        else if(hPos<=-1800 && hPos>=-27000){
-            if( hPos<-1800&& hPos>-2700){
+        else if(hPos>-900 && hPos<0){
+            image(plain,(float)(skyX),(float)(skyY+300));
+            image(ground,(float)(skyX), (float)(skyY+900+300));
+            image(plain,(float)(skyX + 1200),(float) (skyY+300));
+            image(ground,(float)(skyX + 1200), (float)(skyY+900+300));
+        }
+        // else if(hPos>-900 && hPos<-500){
+        //     image(plain,(float)(skyX),(float)(skyY));
+        //     image(plain,(float)(skyX), (float)(skyY+900));
+        //     image(plain,(float)(skyX + 1200),(float) (skyY));
+        //     image(plain,(float)(skyX + 1200), (float)(skyY+900));
+        // }
+        else if(hPos<=-900 && hPos>=-27000){
+            if( hPos<-900&& hPos>-1800){
                 image(spread,(float)(skyX),(float)(skyY));
                 image(plain,(float)(skyX), (float)(skyY+900));
                 image(spread,(float)(skyX + 1200),(float) (skyY));
                 image(plain,(float)(skyX + 1200), (float)(skyY+900));
+            }
+            else if( hPos<-1800&& hPos>-2700){
+                image(spread,(float)(skyX),(float)(skyY));
+                image(spread,(float)(skyX), (float)(skyY+900));
+                image(spread,(float)(skyX + 1200),(float) (skyY));
+                image(spread,(float)(skyX + 1200), (float)(skyY+900));
             }
             else if(rand>0 && rand<=900 && randP>=900 && randP<=1800 ){
                 image(top,(float)(skyX),(float)(skyY));
