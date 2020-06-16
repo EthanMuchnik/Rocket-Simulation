@@ -1,17 +1,21 @@
 import processing.sound.*;
 SoundFile file;
+SoundFile normalRocketMusic;
 
 ArrayList<Character> keys;
 
 public Rocket myRocket;
 
+boolean song;
 void setup(){
     size(1200,900);
     frameRate(Constants.frameRate);
     setupKeys();
     myRocket = new Rocket(0,0, 15000, 5,0.7);
+    normalRocketMusic = new SoundFile(this,"normal.mp3");
     file = new SoundFile(this, "shootingstars.mp3");
     file.play();
+    song = true;
 }
 void draw(){
     background(125, 150, 100);
@@ -28,6 +32,17 @@ void draw(){
     text("Velcity X " + (int)(myRocket.wVelF*Constants.frameRate) + "m/s", 950, 200);
 
     keysBool();
+
+    if(myRocket.hPos<=-100000 && song == true){
+      file.pause();
+      normalRocketMusic.play();
+      song = false;
+    }
+    else if(myRocket.hPos>-100000 && song == false){
+      file.play();
+      normalRocketMusic.pause();
+      song = true;
+    }
 }
 void setupKeys() {
     keys = new ArrayList<Character>();
