@@ -2,7 +2,6 @@ ArrayList<Character> keys;
 
 public Rocket myRocket;
 
-
 void setup(){
     size(1200,900);
     frameRate(Constants.frameRate);
@@ -66,10 +65,10 @@ void keysBool(){
   if(getKey('d')){
     myRocket.rightTurn();
   }
-  if(getKey('j')){
+  if(getKey('k')){
     myRocket.tUp();
   }
-  if(getKey('k')){
+  if(getKey('j')){
     myRocket.tDown();
   }
 }
