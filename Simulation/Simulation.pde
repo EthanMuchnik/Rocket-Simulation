@@ -24,12 +24,15 @@ void draw(){
     textFont(createFont("OCR A Extended", 15));
     image(loadImage("images/rocket/StatsBox.png"), 925, 25);
     text("Height: " + round((float)(-1*myRocket.getHPos())) + " m", 950, 50);
-    text("Fuel Left: " + ((int)myRocket.massC - (int)myRocket.massE) + "kg", 950, 75);
-    text("Meme Level: Over 9000", 950, 100);
-    text("Percent Thrust" +(int)(100*(myRocket.perThrust)) + "%", 950, 125);
-    text("thrust Y" + (-1)*(int)myRocket.thrustFY + "N", 950, 150);
-    text("Velocity Y" + (-1)*(int)(myRocket.hVelF*Constants.frameRate) + "m/s", 950, 175);
-    text("Velcity X " + (int)(myRocket.wVelF*Constants.frameRate) + "m/s", 950, 200);
+    text("Width: " + (int)(-1*myRocket.getHPos()) + " m",950,75);
+    text("Fuel Left: " + ((int)myRocket.massC - (int)myRocket.massE) + " kg", 950, 100);
+    text("Meme Level: Over 9000 ", 950, 125);
+    text("Percent Thrust " +(int)(100*(myRocket.perThrust)) + " %", 950, 150);
+    text("thrust Y " + (-1)*(int)myRocket.thrustFY + " N", 950, 175);
+    text("thrust X " + (-1)*(int)myRocket.thrustFX + " N", 950, 200);
+    text("Velocity Y " + (-1)*(int)(myRocket.hVelF*Constants.frameRate) + " m/s", 950, 225);
+    text("Velocity X " + (int)(myRocket.wVelF*Constants.frameRate) + " m/s", 950, 250);
+    
 
     keysBool();
 
