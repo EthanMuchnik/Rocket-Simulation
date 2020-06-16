@@ -63,15 +63,14 @@ class Rocket{
         this.hVelI = 0;
         this.wVelI = 0;
         this.massE = 60.0;
-        this.massF = 80.0;
+        this.massF = 800.0;
         this.massC = massF;
         this.angleGround = PI/2;
         this.viscosity = viscosityUpdate();
-        this.aEng = 50;
-        this.aRocket = 5;
+        this.aEng = 10;
+        this.aRocket = 20;
         this.rImage = loadImage("images/rocket/Rocket.png");
         this.rTImage = loadImage("images/rocket/RocketThrust.png");
-        // this.skyImage = loadImage("images/clouds.png");
         this.wImg = 50.0;
         this.hImg = 300.0;
         this.mFR = mFR;
@@ -95,107 +94,52 @@ class Rocket{
         else{
             image(rTImage,(int)scrW,(int)scrH,(int)wImg,(int)hImg+50);
         }
-        popMatrix();
-        System.out.println("scrH" + scrH);
-        System.out.println("scrW" + scrW);
-        
-        // System.out.println("hPos initial"+hPos);
+        popMatrix();     
     }
 
+    public double massUpdate(){
+        if(thrustOn){
+            if(massC-mFR*perThrust>=massE){
+                return massC-=(mFR*perThrust)*0.7;
+            }
+            else{
+                massC = massE;
+            }
+        }
+        return massC;
+    }
 
     public double updatePressure(){
         //Pressure //dP/P = -(Mg/RT)(dh)--> P = P0e^((-Mg/RT)(h)) https://www.math24.net/barometric-formula/#:~:text=P(h)%3D101.325%E2%8B%85,0.00012h)%5BmmHg%5D.
-        // Mass
         return Constants.pZero*Math.pow( Constants.e, ((((Constants.molarMass)*(Constants.gravAcc))/((Constants.tempConst)*(Constants.rGasConst)))*(hPos)) );
+    }
+    public double viscosityUpdate(){
+        return Math.pow((Constants.e),0.00005*(hPos)+0.25); // viscosity/density of the air
+    }
+
+    public double airDragForceX(){
+        return 0.5*coefDrag*wVelF*wVelF*viscosityUpdate()*aRocket*Math.signum(wVelF)*(-1);
+        
+    }
+
+    public double airDragForceY(){
+        return 0.5*coefDrag*hVelF*hVelF*viscosityUpdate()*aRocket*Math.signum(hVelF)*(-1);
     }
 
     public double thrustForceX(){
-        // System.out.println("cos" + Math.cos(Math.toRadians(angleGround)));
         if(thrustOn == true){
-            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)* Math.cos(angleGround+counter*Constants.turnConst)*(-1); 
+            return  (mFR*eVel+(ePres-pres)*aEng)*perThrust*Math.cos(angleGround+counter*Constants.turnConst)*(-1); 
         }   
         return  0.0; 
     }
 
     public double thrustForceY(){
-        // System.out.println("sin" + Math.sin(angleGround+counter*PI/60));
         if(thrustOn == true){
-            return  (mFR*eVel+(ePres-pres)*aEng*perThrust)*Math.sin(angleGround+counter*Constants.turnConst)*(-1);
+            return  (mFR*eVel+(ePres-pres)*aEng)*perThrust*Math.sin(angleGround+counter*Constants.turnConst)*(-1);
         }
         return  0.0;  
     }
 
-    public double gravityForce(){
-        return massC*Constants.gravAcc;
-    }
-    public double airDragForceX(){
-        return 0.5*coefDrag*wVelF*wVelF*viscosityUpdate()*aRocket*Math.signum(wVelF)*(-1);
-        
-    }
-    public double airDragForceY(){
-        // System.out.println("coefDrag"+ coefDrag);
-        // System.out.println("speed"+ hVelF);
-        // System.out.println("arocket"+ aRocket);
-        // System.out.println("viscosity"+ viscosityUpdate());
-        // System.out.println("mathsign" + Math.signum(hVelF)*(-1));
-
-        return 0.5*coefDrag*hVelF*hVelF*viscosityUpdate()*aRocket*Math.signum(hVelF)*(-1);
-        // *viscosityUpdate()
-    }
-
-
-    public double forceUpdateX(){
-        thrustFX = thrustForceX();//thrust of Engine X
-        // System.out.println("thrustFX:" + thrustFX);
-        airDragFX = airDragForceX();//force of air resistance
-        // System.out.println("airDragX:" + airDragFX);
-        return thrustFX + airDragFX;
-    }
-
-    public double forceUpdateY(){
-        thrustFY = thrustForceY();//thrust of Engine Y
-        // System.out.println("thrustFY:" + thrustFY);
-        gravF= gravityForce();//force of gravity
-        // System.out.println("gravF:" + gravF);
-        airDragFY = airDragForceY();//force of air resistance
-        // System.out.println("airDragY:" + airDragFY);
-        return thrustFY + airDragFY+gravF;
-    }
-
-    public double massUpdate(){
-        if(massC-mFR*perThrust>=massE){
-            return massC-=(mFR*perThrust);
-        }
-        return massC;
-    }
-
-    public void generalUpdate(){
-        // theKey = "";
-        // hVelF = speedUpdateY();
-        // hPos = setHPos();
-        
-        massC = massUpdate();
-        pres  = updatePressure();
-        // System.out.println("pres" + pres);
-        netForceX = forceUpdateX();
-        // System.out.println("net x: " +netForceX);
-        netForceY = forceUpdateY();
-        netForceY = netForceY - normalForceY();
-        // System.out.println("net y"+ netForceY);
-        viscosity = viscosityUpdate();
-        // wPos = setWPos();
-        // wVelF = speedUpdateX();
-        // System.out.println("hPos:" + hPos);
-        System.out.println();
-        itoFSpeedY();
-        itoFSpeedX();
-        hUpdate();
-        wUpdate();
-        theSky.update(hVelF,wVelF);
-        theSky.imagePrint();
-
-        // thrustOn = false ;
-    }
     public double normalForceY(){
         if(hPos>0 ){
             normalFY = netForceY*(-1);
@@ -206,29 +150,49 @@ class Rocket{
             return normalFY;
         }
     }
+
+    public double gravityForce(){
+        return massC*Constants.gravAcc;
+    }
+
+    public double forceUpdateX(){
+        thrustFX = thrustForceX();//thrust of Engine X
+        airDragFX = airDragForceX();//force of air resistance
+        return thrustFX + airDragFX; //total Force on X axis
+    }
+
+    public double forceUpdateY(){
+        thrustFY = thrustForceY();//thrust of Engine Y
+        gravF= gravityForce();//force of gravity
+        airDragFY = airDragForceY();//force of air resistance
+        return thrustFY + airDragFY+gravF; //total Force on Y axis
+    }
+
+    public void generalUpdate(){
+        massC = massUpdate();
+        pres  = updatePressure();
+        netForceX = forceUpdateX();
+        netForceY = forceUpdateY();
+        netForceY = netForceY - normalForceY();
+        viscosity = viscosityUpdate();
+        itoFSpeedY();
+        itoFSpeedX();
+        hUpdate();
+        wUpdate();
+        theSky.update(hVelF,wVelF);
+        theSky.imagePrint();
+    }
     public double speedUpdateX(){
         return (netForceX*Constants.dt)/massC+wVelI;
-        // System.out.println("Width I")
     }
-    // public double speedUpdateY(){
-    //     return (netForceY*Constants.dt)/massC+ hVelI;
-    // }
-
     public void itoFSpeedY(){
         hVelI = hVelF;
-        // System.out.println("hightFinalSpeed" + hVelF);
     }
     public void itoFSpeedX(){
         wVelI = wVelF;
-        // System.out.println("widthFinalSpeed" + wVelF);
     }
 
-
-    public double viscosityUpdate(){
-        return Math.pow((Constants.e),0.00005*(hPos)+0.25);
-    }
-
-    //get variables functions
+    //Position and Speed Equation
     public double getHPos(){
         return hPos;
     }    
@@ -238,7 +202,7 @@ class Rocket{
 
     public void wUpdate(){
         if(hPos<0){
-            wVelF =(netForceX*Constants.dt)/massC+ wVelI;
+            wVelF =(netForceX*Constants.dt)/massC+ wVelI; //Derived from I = Integral(Fdt)
             wPos+=wVelF;
 
         }
@@ -274,8 +238,6 @@ class Rocket{
             hPos =  0;
             theSky.modY(mod);
         }
-        System.out.println("hPos " + hPos);
-        System.out.println(hVelF + "hVelF");
     }    
     public double setWPos(){
         return wPos+=wVelF;
@@ -289,12 +251,24 @@ class Rocket{
     }   
     public void rightTurn(){
         counter++;
-        // angleGround+=Math.to
     }
     public void leftTurn(){
         counter--;
     }
-    // public void double(){
-    //     cloud.returnRand();
-    // }
+    public void tUp(){
+        if(perThrust+0.005 <=1){
+            perThrust+=0.005;
+        }
+        else{
+            perThrust = 1.0;
+        }
+    }
+    public void tDown(){
+        if(perThrust-0.005 >=0){
+            perThrust-=0.005;
+        }
+        else{
+            perThrust = 0;
+        }
+    }
 }
