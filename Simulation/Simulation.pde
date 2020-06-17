@@ -14,7 +14,7 @@ void setup(){
     myRocket = new Rocket(0,0, 15000, 5,0.7);
     normalRocketMusic = new SoundFile(this,"normal.mp3");
     file = new SoundFile(this, "shootingstars.mp3");
-    file.play();
+    file.loop();
     song = true;
 }
 void draw(){
@@ -38,11 +38,11 @@ void draw(){
 
     if(myRocket.hPos<=-100000 && song == true){
       file.pause();
-      normalRocketMusic.play();
+      normalRocketMusic.loop();
       song = false;
     }
     else if(myRocket.hPos>-100000 && song == false){
-      file.play();
+      file.loop();
       normalRocketMusic.pause();
       song = true;
     }
