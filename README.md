@@ -13,11 +13,11 @@ k: thrust % higher
 ## In-game Pictures
 
 Ground View
-![ground](1rground.png)
+![ground](1rground.PNG)
 
 Cloud View
-![ground](1rcloud.png)
+![ground](1rcloud.PNG)
 
 Space View
-![ground](1rspace.png)
+![ground](1rspace.PNG)
 
