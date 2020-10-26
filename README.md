@@ -4,16 +4,19 @@ This was a rocket simulation game developed with a self-made calculus-based phys
 ## Controls:
 
 w:engine on
+
 a:turns rocket left
+
 d:turns rocket left
 
 j: thrust % lower
+
 k: thrust % higher
 
 ## In-game Pictures
 
 Ground View
-![ground](1rground.PNG)
+![ground](1rground.PNG =250x250)
 
 Cloud View
 ![ground](1rcloud.PNG)
