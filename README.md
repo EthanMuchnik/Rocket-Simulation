@@ -3,11 +3,11 @@ This was a rocket simulation game developed with a self-made calculus-based phys
 
 ## Controls:
 
-w:engine on
+w: engine on
 
-a:turns rocket left
+a: turns rocket left
 
-d:turns rocket left
+d: turns rocket left
 
 j: thrust % lower
 
@@ -16,11 +16,12 @@ k: thrust % higher
 ## In-game Pictures
 
 Ground View
-![ground](1rground.PNG)
+<img src="1rground.PNG" alt="1rground" width="400"/>
 
 Cloud View
-![ground](1rcloud.PNG)
+<img src="1rcloud.PNG" alt="1rcloud" width="400"/>
 
 Space View
-![ground](1rspace.PNG)
+<img src="1rspace.PNG" alt="1rspace" width="400"/>
+
 
