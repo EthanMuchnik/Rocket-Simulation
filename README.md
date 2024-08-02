@@ -1,6 +1,8 @@
 # Rocket-Calc-Game
 This was a rocket simulation game developed with a self-made calculus-based physics engine. Feel free to pull the code and play the game. 
 
+Oh and download Processing 3.5.4 [here](https://processing.org/releases) 
+
 ## Controls:
 
 w: engine on
